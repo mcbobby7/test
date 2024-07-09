@@ -1,11 +1,39 @@
+"use client";
+
 import Image from "next/image";
 import styles from "./page.module.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Home() {
+  const [data, setData] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/custom");
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/api/custom");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>
+        <p onClick={() => fetchData()}>
           Get started by editing&nbsp;
           <code className={styles.code}>app/page.js</code>
         </p>
